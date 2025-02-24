@@ -40,4 +40,9 @@ export class TareasService {
 
     return query.getMany();
   }
+  async eliminarTarea(id: number) {
+    await this.asignacionRepo.delete({ tarea: { id } });
+    return this.tareaRepo.delete(id); // Eliminar tarea
+  }
+
 }

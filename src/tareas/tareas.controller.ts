@@ -28,4 +28,16 @@ export class TareasController {
       correoUsuario,
     });
   }
+
+  @Delete(':id')
+  async eliminarTarea(@Param('id') id: number) {
+    return this.tareasService.eliminarTarea(id);
+  }
+
+
+  @Get('analitica')
+async obtenerAnalitica() {
+  return this.tareasService.obtenerAnalitica();
+}
+
 }
