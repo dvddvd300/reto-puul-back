@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Usuario } from '../usuarios/usuario.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
+import { Asignacion } from '../asignacion/asignacion.entity';
 
-@Entity()
+@Entity('tareas')
 export class Tarea {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,21 +9,24 @@ export class Tarea {
   @Column()
   titulo: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   descripcion: string;
 
-  @Column()
-  estimacionHoras: number;
+  @Column({ type: 'int', nullable: true })
+  estimacion_horas: number;
 
-  @Column({ type: 'timestamp' })
-  fechaVencimiento: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  fecha_vencimiento: Date;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50 })
   estado: 'activa' | 'terminada';
 
-  @Column({ type: 'decimal', default: 0 })
+  @Column({ type: 'numeric', precision: 10, scale: 2, default: 0.0 })
   costo: number;
 
-  @ManyToOne(() => Usuario, usuario => usuario.tareas)
-  usuario: Usuario;
+  @CreateDateColumn()
+  created_at: Date;
+
+  @OneToMany(() => Asignacion, (asignacion) => asignacion.tarea)
+  asignaciones: Asignacion[];
 }

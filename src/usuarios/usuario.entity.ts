@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { Tarea } from '../tareas/tarea.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn } from 'typeorm';
+import { Asignacion } from '../asignacion/asignacion.entity';
 
-@Entity()
+@Entity('usuarios')
 export class Usuario {
   @PrimaryGeneratedColumn()
   id: number;
@@ -12,9 +12,12 @@ export class Usuario {
   @Column({ unique: true })
   correo: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50 })
   rol: 'miembro' | 'administrador';
 
-  @OneToMany(() => Tarea, tarea => tarea.usuario)
-  tareas: Tarea[];
+  @CreateDateColumn()
+  created_at: Date;
+
+  @OneToMany(() => Asignacion, (asignacion) => asignacion.usuario)
+  asignaciones: Asignacion[];
 }
